@@ -11,8 +11,8 @@ GENDISKDIR = $(BUILDDIR)/disk
 
 # paths to dependencies
 COCODISKGEN = $(TOOLDIR)/file2dsk
-ASSEMBLER = $(TOOLDIR)/lwasm
-EMULATOR = $(TOOLDIR)/mess64
+ASSEMBLER = lwasm
+EMULATOR = mame #$(TOOLDIR)/mess64
 
 # make sure build products directories exist
 $(shell mkdir -p $(GENLISTDIR))
@@ -60,7 +60,8 @@ clean:
 	rm -rf $(GENASMDIR) $(GENOBJDIR) $(GENDISKDIR) $(GENLISTDIR)
 
 test:
-	$(EMULATOR) coco3h -flop1 $(TARGET) $(MAMEFLAGS) -window -waitvsync -resolution 640x480 -video opengl -rompath /mnt/terabyte/pyro/Emulators/firmware/
+	$(EMULATOR) coco3h -flop1 $(TARGET) $(MAMEFLAGS) -window
+	#-waitvsync -resolution 640x480 -video opengl -rompath /mnt/terabyte/pyro/Emulators/firmware/
 
 # build rules
 
