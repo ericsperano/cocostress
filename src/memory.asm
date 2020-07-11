@@ -26,7 +26,7 @@
 * MemMgr_MapPage
 * - IN:      D = physical RAM page ($000-$3ff)
 *            U = GIME memory map register ($FFA0-$FFAF)
-* - OUT: 
+* - OUT:
 * - Trashed: Upper 4 bits of A are cleared
 ***********************************************************
 
@@ -35,7 +35,7 @@ MemMgr_MapPage
             lsla
             lsla
             lsla
-            sta         $FF9B
+            sta         $FF9B               ; unused gimme register??? i dont understand what it does
             stb         ,u
             lsra
             lsra
@@ -46,18 +46,18 @@ MemMgr_MapPage
 ***********************************************************
 * MemMgr_BlockStoreConst
 * - IN:      A = constant byte value to store, X = destination block number
-* - OUT: 
+* - OUT:
 * - Trashed: U
 ***********************************************************
 
 MemMgr_BlockStoreConst
             exg         x,d
-            ldu         #$FFA3
+            ldu         #$FFA3                  ; $FFA3        | 59    | $76000 - $77FFF  | ?              | $6000             |
             jsr         MemMgr_MapPage
             exg         x,d
-            ldu         #$6000
+            ldu         #$6000                  ;u is the beginning of the logical map ffa3
 StoreLoop@
-            sta         ,u
+            sta         ,u                      ; not sure why using 8 sta + leau 8,u instead of 1 sta + leau 1,u
             sta         1,u
             sta         2,u
             sta         3,u
@@ -74,7 +74,7 @@ StoreLoop@
 ***********************************************************
 * MemMgr_BlockStoreRandom
 * - IN:      X = destination block number
-* - OUT: 
+* - OUT:
 * - Trashed: A,B,U
 ***********************************************************
 
@@ -94,7 +94,7 @@ StoreLoop@
 ***********************************************************
 * MemMgr_CopyPhysicalBlock
 * - IN:      X = source block number, Y = destination block number
-* - OUT: 
+* - OUT:
 * - Trashed: A,B,X,Y,U
 ***********************************************************
 
@@ -120,7 +120,7 @@ CopyLoop@
 ***********************************************************
 * MemMgr_BlockCheckConst
 * - IN:      A = expected byte value, X = destination block number
-* - OUT: 
+* - OUT:
 * - Trashed: X,U
 ***********************************************************
 
@@ -160,7 +160,7 @@ ReadOK@
 ***********************************************************
 * MemMgr_BlockCheckRandom
 * - IN:      X = destination block number
-* - OUT: 
+* - OUT:
 * - Trashed: D,U
 ***********************************************************
 
@@ -251,5 +251,5 @@ Loop1@
             decb
             bne         <
             rts
-            
+
 

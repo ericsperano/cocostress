@@ -31,14 +31,14 @@ PIA0B_Ctrl          equ     %00110100           * CB2 = DAC SELB (low), Data Reg
 
 ***********************************************************
 * Init_SetupHardware:
-* - IN:      
-* - OUT:     
+* - IN:
+* - OUT:
 * - Trashed: A
 ***********************************************************
 Init_SetupHardware
-            clr         $FFD9                   * turbo cpu frequency
+            clr         $FFD9                   * turbo cpu frequency (poke 65497,0)
             orcc        #$50                    * disabled interrupts
-            lda         #$FC                    * coco2 gfx, MMU enabled, coco3 IRQ and FIRQ handling enabled
+            lda         #$FC                    * coco2 gfx, MMU enabled, coco3 IRQ and FIRQ handling enabled: 1111 1100
                                                 * fix $FE** page to high ram, standard SCS, rom: 16k internal / 16k cartridge
             sta         $FF90                   * set GIME init register 0
             * initialize PIA0 state
@@ -64,7 +64,7 @@ Init_SetupHardware
 ***********************************************************
 * Init_DetectRAM
 * - IN:      X = location to store memory size (text)
-* - OUT: 
+* - OUT:
 * - Trashed: D,X,Y,U
 ***********************************************************
 *
@@ -150,8 +150,8 @@ DRLoop3@
 
 ***********************************************************
 * Init_EnableGraphics:
-* - IN:      
-* - OUT:     
+* - IN:
+* - OUT:
 * - Trashed: A,B,X,Y
 ***********************************************************
 Init_EnableGraphics
@@ -181,7 +181,7 @@ Init_EnableGraphics
 * Init_SetPalette:
 *
 * - IN:      None
-* - OUT: 
+* - OUT:
 * - Trashed: A,B,X,Y
 ***********************************************************
 
